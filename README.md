@@ -41,8 +41,8 @@ echo $solidIcon->get('user');
 // '<i class="fa-solid fa-user" aria-hidden="true"></i>'
 echo $solidIcon->html('user');
 
-// '<i class="fa-regular fa-calendar" title="Календарь" aria-hidden="true"></i>
-echo $regularIcon->html('calendar', 'Календарь');
+// '<i class="fa-regular fa-calendar" title="Calendar" aria-hidden="true"></i>
+echo $regularIcon->html('calendar', 'Calendar');
 
 // '<i class="fa-regular fa-copy fa-2xl" aria-hidden="true"></i>'
 echo $regularIcon->size('2xl')->html('copy');
