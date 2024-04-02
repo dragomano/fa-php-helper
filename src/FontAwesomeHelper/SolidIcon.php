@@ -9,7 +9,7 @@
  * @copyright 2024 Bugo
  * @license https://opensource.org/licenses/MIT The MIT License
  *
- * @version 0.1
+ * @version 0.2
  */
 
 namespace Bugo\FontAwesomeHelper;
@@ -1209,7 +1209,9 @@ class SolidIcon extends AbstractIcon
             't',
             'table',
             'table-cells',
+            'table-cells-column-lock',
             'table-cells-large',
+            'table-cells-row-lock',
             'table-columns',
             'table-list',
             'table-tennis-paddle-ball',

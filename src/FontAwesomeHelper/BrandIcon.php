@@ -9,7 +9,7 @@
  * @copyright 2024 Bugo
  * @license https://opensource.org/licenses/MIT The MIT License
  *
- * @version 0.1
+ * @version 0.2
  */
 
 namespace Bugo\FontAwesomeHelper;
@@ -65,6 +65,7 @@ class BrandIcon extends AbstractIcon
             'blackberry',
             'blogger',
             'blogger-b',
+            'bluesky',
             'bluetooth',
             'bluetooth-b',
             'bootstrap',
@@ -247,6 +248,7 @@ class BrandIcon extends AbstractIcon
             'joomla',
             'js',
             'jsfiddle',
+            'jxl',
             'kaggle',
             'keybase',
             'keycdn',
@@ -408,8 +410,11 @@ class BrandIcon extends AbstractIcon
             'square-threads',
             'square-tumblr',
             'square-twitter',
+            'square-upwork',
             'square-viadeo',
             'square-vimeo',
+            'square-web-awesome',
+            'square-web-awesome-stroke',
             'square-whatsapp',
             'square-x-twitter',
             'square-xing',
@@ -475,6 +480,7 @@ class BrandIcon extends AbstractIcon
             'vuejs',
             'watchman-monitoring',
             'waze',
+            'web-awesome',
             'webflow',
             'weebly',
             'weibo',
