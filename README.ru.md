@@ -94,3 +94,15 @@ $brandIcon = new BrandIcon();
 
 echo $brandIcon->random();
 ```
+
+А так можно получить всю коллекцию сразу:
+
+```php
+<?php declare(strict_types=1);
+
+use Bugo\FontAwesomeHelper\Collection;
+
+$collection = new Collection();
+
+echo $collection->getAll();
+```
