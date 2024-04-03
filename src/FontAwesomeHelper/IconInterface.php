@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /**
- * IconStyle.php
+ * IconInterface.php
  *
  * @package FontAwesomeHelper
  * @link https://dragomano.ru/fa-php-helper
@@ -9,12 +9,12 @@
  * @copyright 2024 Bugo
  * @license https://opensource.org/licenses/MIT The MIT License
  *
- * @version 0.1
+ * @version 0.2
  */
 
 namespace Bugo\FontAwesomeHelper;
 
-interface IconStyle
+interface IconInterface
 {
     public function get(string $icon): string;
 

@@ -16,9 +16,9 @@ namespace Bugo\FontAwesomeHelper;
 
 class SolidIcon extends AbstractIcon
 {
-    protected string $oldPrefix = 'fas fa-';
+    public string $prefix = 'fa-solid fa-';
 
-    protected string $prefix = 'fa-solid fa-';
+    protected string $oldPrefix = 'fas fa-';
 
     public function getAll(): array
     {

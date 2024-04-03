@@ -16,9 +16,9 @@ namespace Bugo\FontAwesomeHelper;
 
 class BrandIcon extends AbstractIcon
 {
-    protected string $oldPrefix = 'fab fa-';
+    public string $prefix = 'fa-brands fa-';
 
-    protected string $prefix = 'fa-brands fa-';
+    protected string $oldPrefix = 'fab fa-';
 
     public function getAll(): array
     {

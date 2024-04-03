@@ -9,15 +9,15 @@
  * @copyright 2024 Bugo
  * @license https://opensource.org/licenses/MIT The MIT License
  *
- * @version 0.1
+ * @version 0.2
  */
 
 namespace Bugo\FontAwesomeHelper;
 
-use Exception;
-
-abstract class AbstractIcon implements IconStyle
+abstract class AbstractIcon implements IconInterface
 {
+    use RandomIcon;
+
     protected string $oldPrefix;
 
     protected string $prefix;
@@ -88,21 +88,10 @@ abstract class AbstractIcon implements IconStyle
         return $this;
     }
 
-	public function extra(string $extra): self
-	{
-		$this->extra .= ' ' . $extra;
-
-		return $this;
-	}
-
-	/**
-	 * @throws Exception
-	 */
-	public function random(): string
+    public function extra(string $extra): self
     {
-        $icons = $this->getAll();
-	    $index = random_int(0, count($icons) - 1);
+        $this->extra .= ' ' . $extra;
 
-        return $this->get($icons[$index]);
+        return $this;
     }
 }

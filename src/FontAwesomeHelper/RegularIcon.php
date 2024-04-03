@@ -16,9 +16,9 @@ namespace Bugo\FontAwesomeHelper;
 
 class RegularIcon extends AbstractIcon
 {
-    protected string $oldPrefix = 'far fa-';
+    public string $prefix = 'fa-regular fa-';
 
-    protected string $prefix = 'fa-regular fa-';
+    protected string $oldPrefix = 'far fa-';
 
     public function getAll(): array
     {
