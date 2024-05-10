@@ -9,16 +9,14 @@
  * @copyright 2024 Bugo
  * @license https://opensource.org/licenses/MIT The MIT License
  *
- * @version 0.2
+ * @version 0.3
  */
 
-namespace Bugo\FontAwesomeHelper;
+namespace Bugo\FontAwesomeHelper\Styles;
 
 class BrandIcon extends AbstractIcon
 {
     public string $prefix = 'fa-brands fa-';
-
-    protected string $oldPrefix = 'fab fa-';
 
     public function getAll(): array
     {

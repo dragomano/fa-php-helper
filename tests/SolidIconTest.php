@@ -1,10 +1,11 @@
 <?php declare(strict_types=1);
 
-use Bugo\FontAwesomeHelper\SolidIcon;
+use Bugo\FontAwesomeHelper\Styles\OldSolidIcon;
+use Bugo\FontAwesomeHelper\Styles\SolidIcon;
 
 beforeEach(function () {
 	$this->icon = new SolidIcon();
-	$this->oldStyleIcon = new SolidIcon(['deprecated_class' => true]);
+	$this->oldStyleIcon = new OldSolidIcon();
 });
 
 test('get solid icon', function () {
@@ -13,5 +14,11 @@ test('get solid icon', function () {
 });
 
 test('get all icons', function () {
-	expect($this->icon->getAll())->toBeArray();
+	expect($this->icon->getAll())->toBeArray()
+		->and($this->oldStyleIcon->getAll())->toBeArray();
+});
+
+test('prefixes', function () {
+	expect($this->icon->prefix)->toBe('fa-solid fa-')
+		->and($this->oldStyleIcon->prefix)->toBe('fas fa-');
 });

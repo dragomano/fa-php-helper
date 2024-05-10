@@ -9,16 +9,18 @@
  * @copyright 2024 Bugo
  * @license https://opensource.org/licenses/MIT The MIT License
  *
- * @version 0.2
+ * @version 0.3
  */
 
-namespace Bugo\FontAwesomeHelper;
+namespace Bugo\FontAwesomeHelper\Styles;
+
+use Bugo\FontAwesomeHelper\IconInterface;
+use Bugo\FontAwesomeHelper\Traits\WithParams;
+use Bugo\FontAwesomeHelper\Traits\WithRandomIcon;
 
 abstract class AbstractIcon implements IconInterface
 {
-    use RandomIcon;
-
-    protected string $oldPrefix;
+    use WithParams, WithRandomIcon;
 
     protected string $prefix;
 
@@ -27,12 +29,6 @@ abstract class AbstractIcon implements IconInterface
     protected string $extra = '';
 
     protected string $color = '';
-
-    protected array $params = [
-        'deprecated_class' => false,
-        'fixed_width' => false,
-        'aria_hidden' => true,
-    ];
 
     protected array $sizes = [
         '2xs',
@@ -43,33 +39,18 @@ abstract class AbstractIcon implements IconInterface
         '2xl',
     ];
 
-    public function __construct(array $params = [])
-    {
-        $this->params = array_merge($this->params, $params);
-
-        if ($this->params['deprecated_class']) {
-            $this->prefix = $this->oldPrefix;
-        }
-
-        if ($this->params['fixed_width']) {
-            $this->suffix .= ' fa-fw';
-        }
-    }
-
     public function get(string $icon): string
     {
-        return $this->prefix . $icon . $this->extra . $this->suffix;
+        return $this->prefix . $icon . $this->extra . $this->getSuffix();
     }
 
     public function html(string $icon, string $title = ''): string
     {
-        $color = $this->color ? ' style="color: ' . $this->color . '"' : '';
+        $colorStyle = $this->getColorStyle();
+        $titleAttribute = $this->getTitleAttribute($title);
+        $ariaHidden = $this->getAriaHiddenAttribute();
 
-        $title = $title ? ' title="' . $title . '"' : '';
-
-        $aria = $this->params['aria_hidden'] ? ' aria-hidden="true"' : '';
-
-        return '<i class="' . $this->get($icon) . '"' . $color . $title . $aria . '></i>';
+        return '<i class="' . $this->get($icon) . '"' . $colorStyle . $titleAttribute . $ariaHidden . '></i>';
     }
 
     public function size(string $size): self
@@ -94,4 +75,24 @@ abstract class AbstractIcon implements IconInterface
 
         return $this;
     }
+
+    private function getColorStyle(): string
+    {
+        return $this->color ? ' style="color: ' . $this->color . '"' : '';
+    }
+
+    private function getTitleAttribute(string $title): string
+    {
+        return $title ? ' title="' . $title . '"' : '';
+    }
+
+    private function getAriaHiddenAttribute(): string
+    {
+        return $this->params['aria_hidden'] ? ' aria-hidden="true"' : '';
+    }
+
+	private function getSuffix(): string
+	{
+		return $this->params['fixed_width'] ? $this->suffix . ' fa-fw' : $this->suffix;
+	}
 }

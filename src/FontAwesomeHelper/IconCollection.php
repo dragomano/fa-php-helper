@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /**
- * IconInterface.php
+ * IconCollection.php
  *
  * @package FontAwesomeHelper
  * @link https://dragomano.ru/fa-php-helper
@@ -14,11 +14,9 @@
 
 namespace Bugo\FontAwesomeHelper;
 
-interface IconInterface
+interface IconCollection
 {
     public function get(string $icon): string;
-
-    public function html(string $icon, string $title = ''): string;
 
     public function getAll(): array;
 }

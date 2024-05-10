@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /**
- * RandomIcon.php
+ * WithRandomIcon.php
  *
  * @package FontAwesomeHelper
  * @link https://dragomano.ru/fa-php-helper
@@ -9,14 +9,14 @@
  * @copyright 2024 Bugo
  * @license https://opensource.org/licenses/MIT The MIT License
  *
- * @version 0.2
+ * @version 0.3
  */
 
-namespace Bugo\FontAwesomeHelper;
+namespace Bugo\FontAwesomeHelper\Traits;
 
 use Exception;
 
-trait RandomIcon
+trait WithRandomIcon
 {
     /**
      * @throws Exception

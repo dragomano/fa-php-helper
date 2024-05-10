@@ -27,9 +27,9 @@ composer require bugo/fa-php-helper
 ```php
 <?php declare(strict_types=1);
 
-use Bugo\FontAwesomeHelper\SolidIcon;
-use Bugo\FontAwesomeHelper\RegularIcon;
-use Bugo\FontAwesomeHelper\BrandIcon;
+use Bugo\FontAwesomeHelper\Styles\SolidIcon;
+use Bugo\FontAwesomeHelper\Styles\RegularIcon;
+use Bugo\FontAwesomeHelper\Styles\BrandIcon;
 
 $solidIcon = new SolidIcon();
 $regularIcon = new RegularIcon();
@@ -38,35 +38,44 @@ $brandIcon = new BrandIcon();
 // 'fa-solid fa-user'
 echo $solidIcon->get('user');
 
-// '<i class="fa-solid fa-user" aria-hidden="true"></i>'
+// '<i class="fa-solid fa-user"></i>'
 echo $solidIcon->html('user');
 
-// '<i class="fa-regular fa-calendar" title="Календарь" aria-hidden="true"></i>
+// '<i class="fa-regular fa-calendar" title="Календарь"></i>
 echo $regularIcon->html('calendar', 'Календарь');
 
-// '<i class="fa-regular fa-copy fa-2xl" aria-hidden="true"></i>'
+// '<i class="fa-regular fa-copy fa-2xl"></i>'
 echo $regularIcon->size('2xl')->html('copy');
 
-// '<i class="fa-brands fa-apple" style="color: red" aria-hidden="true"></i>'
+// '<i class="fa-brands fa-apple" style="color: red"></i>'
 echo $brandIcon->color('red')->html('apple');
 ```
 
-Дополнительные опции можно передавать через массив при создании объекта:
+Добавление фиксированной ширины для отображения в списках:
 
 ```php
 <?php declare(strict_types=1);
 
-use Bugo\FontAwesomeHelper\SolidIcon;
+use Bugo\FontAwesomeHelper\Styles\SolidIcon;
 
-$options = [
-    'deprecated_class' => true,
-    'fixed_width' => true,
-    'aria_hidden' => false,
-];
+$solidIcon = new SolidIcon();
+$solidIcon->useFixedWidth();
 
-$solidIcon = new SolidIcon($options);
+// '<i class="fa-solid fa-user fa-fw"></i>'
+echo $solidIcon->html('user');
+```
 
-// '<i class="fas fa-user fa-fw"></i>'
+Добавление атрибута `aria-hidden="true"`:
+
+```php
+<?php declare(strict_types=1);
+
+use Bugo\FontAwesomeHelper\Styles\SolidIcon;
+
+$solidIcon = new SolidIcon();
+$solidIcon->useAriaHidden();
+
+// '<i class="fa-solid fa-user" aria-hidden="true"></i>'
 echo $solidIcon->html('user');
 ```
 
@@ -75,11 +84,11 @@ echo $solidIcon->html('user');
 ```php
 <?php declare(strict_types=1);
 
-use Bugo\FontAwesomeHelper\SolidIcon;
+use Bugo\FontAwesomeHelper\Styles\SolidIcon;
 
 $solidIcon = new SolidIcon();
 
-// '<i class="fa-solid fa-heart fa-beat" aria-hidden="true"></i>'
+// '<i class="fa-solid fa-heart fa-beat"></i>'
 echo $solidIcon->extra('fa-beat')->html('heart');
 ```
 
@@ -88,7 +97,7 @@ echo $solidIcon->extra('fa-beat')->html('heart');
 ```php
 <?php declare(strict_types=1);
 
-use Bugo\FontAwesomeHelper\BrandIcon;
+use Bugo\FontAwesomeHelper\Styles\BrandIcon;
 
 $brandIcon = new BrandIcon();
 
@@ -100,9 +109,30 @@ echo $brandIcon->random();
 ```php
 <?php declare(strict_types=1);
 
-use Bugo\FontAwesomeHelper\Collection;
+use Bugo\FontAwesomeHelper\Collections\Collection;
 
 $collection = new Collection();
 
 echo $collection->getAll();
+```
+
+Альтернативный способ работы с иконками через фабрики:
+
+```php
+<?php declare(strict_types=1);
+
+use Bugo\FontAwesomeHelper\Factories\IconFactoryCreator;
+
+$iconFactoryCreator = new IconFactoryCreator();
+$iconSolidFactory = $iconFactoryCreator::createFactory('solid');
+$solidIcon = $iconSolidFactory->createIcon();
+
+// '<i class="fa-solid fa-heart"></i>'
+echo $solidIcon->html('heart');
+
+$iconOldSolidFactory = $iconFactoryCreator::createFactory('old_solid');
+$oldSolidIcon = $iconOldSolidFactory->createIcon();
+
+// '<i class="fas fa-heart"></i>'
+echo $oldSolidIcon->html('heart');
 ```

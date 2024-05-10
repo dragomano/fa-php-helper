@@ -9,25 +9,21 @@
  * @copyright 2024 Bugo
  * @license https://opensource.org/licenses/MIT The MIT License
  *
- * @version 0.2
+ * @version 0.3
  */
 
-namespace Bugo\FontAwesomeHelper;
+namespace Bugo\FontAwesomeHelper\Collections;
 
-class Collection
+use Bugo\FontAwesomeHelper\Factories\BrandIconFactory;
+use Bugo\FontAwesomeHelper\Factories\SolidIconFactory;
+use Bugo\FontAwesomeHelper\Factories\RegularIconFactory;
+use Bugo\FontAwesomeHelper\IconCollection;
+use Bugo\FontAwesomeHelper\Traits\WithParams;
+use Bugo\FontAwesomeHelper\Traits\WithRandomIcon;
+
+class Collection implements IconCollection
 {
-    use RandomIcon;
-
-    protected array $params = [
-        'deprecated_class' => false,
-        'fixed_width' => false,
-        'aria_hidden' => true,
-    ];
-
-    public function __construct(array $params = [])
-    {
-	    $this->params = array_merge($this->params, $params);
-    }
+    use WithParams, WithRandomIcon;
 
     public function get(string $icon): string
     {
@@ -36,9 +32,9 @@ class Collection
 
     public function getAll(): array
     {
-        $solidIcons = new SolidIcon($this->params);
-        $regularIcons = new RegularIcon($this->params);
-        $brandIcons = new BrandIcon($this->params);
+        $solidIcons = (new SolidIconFactory())->createIcon();
+        $regularIcons = (new RegularIconFactory())->createIcon();
+        $brandIcons = (new BrandIconFactory())->createIcon();
 
         return array_merge(
             array_map(static fn($icon): string => $solidIcons->prefix . $icon, $solidIcons->getAll()),

@@ -1,10 +1,11 @@
 <?php declare(strict_types=1);
 
-use Bugo\FontAwesomeHelper\BrandIcon;
+use Bugo\FontAwesomeHelper\Styles\BrandIcon;
+use Bugo\FontAwesomeHelper\Styles\OldBrandIcon;
 
 beforeEach(function () {
 	$this->icon = new BrandIcon();
-	$this->oldStyleIcon = new BrandIcon(['deprecated_class' => true]);
+	$this->oldStyleIcon = new OldBrandIcon();
 });
 
 test('get brand icon', function () {
@@ -13,5 +14,11 @@ test('get brand icon', function () {
 });
 
 test('get all icons', function () {
-	expect($this->icon->getAll())->toBeArray();
+	expect($this->icon->getAll())->toBeArray()
+		->and($this->oldStyleIcon->getAll())->toBeArray();
+});
+
+test('prefixes', function () {
+	expect($this->icon->prefix)->toBe('fa-brands fa-')
+		->and($this->oldStyleIcon->prefix)->toBe('fab fa-');
 });
