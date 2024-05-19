@@ -1,20 +1,21 @@
 # FontAwesome PHP Helper
 
-![PHP](https://img.shields.io/badge/PHP-^8.0-blue.svg?style=flat)
+![PHP](https://img.shields.io/badge/PHP-^8.1-blue.svg?style=flat)
 ![Coverage](https://badgen.net/coveralls/c/github/dragomano/fa-php-helper/main)
 
 [English](README.md)
 
 ## Описание
 
-Пакет предназначен для генерации HTML-кода иконок FontAwesome 6. Кроме того, доступны следующие функции:
+Пакет предназначен для генерации CSS-классов и HTML-кода иконок FontAwesome 6. Кроме того, доступны следующие функции:
 
 - добавление цвета иконок
 - изменение размера иконок
 - поддержка как современных (`fa-solid fa-`), так и устаревших классов (`fas fa-`)
 - использование фиксированной ширины иконок (`fa-fw`) для отображения в списках
 - опциональное добавление атрибута `aria-hidden="true"` для скрытия иконок от программ чтения с экрана и т. п.
-- получение случайной иконки
+- получение CSS-класса случайной иконки
+- коллекция CSS-классов всех иконок
 
 ## Установка
 
@@ -24,115 +25,91 @@ composer require bugo/fa-php-helper
 
 ## Использование
 
+Если нужны только классы:
+
 ```php
-<?php declare(strict_types=1);
+<?php
 
-use Bugo\FontAwesomeHelper\Styles\SolidIcon;
-use Bugo\FontAwesomeHelper\Styles\RegularIcon;
-use Bugo\FontAwesomeHelper\Styles\BrandIcon;
-
-$solidIcon = new SolidIcon();
-$regularIcon = new RegularIcon();
-$brandIcon = new BrandIcon();
+use Bugo\FontAwesomeHelper\Enums\Icon;
 
 // 'fa-solid fa-user'
-echo $solidIcon->get('user');
+var_dump(Icon::V6->solid('user'));
 
-// '<i class="fa-solid fa-user"></i>'
-echo $solidIcon->html('user');
+// 'fa-regular fa-user'
+var_dump(Icon::V6->regular('user'));
 
-// '<i class="fa-regular fa-calendar" title="Календарь"></i>
-echo $regularIcon->html('calendar', 'Календарь');
-
-// '<i class="fa-regular fa-copy fa-2xl"></i>'
-echo $regularIcon->size('2xl')->html('copy');
-
-// '<i class="fa-brands fa-apple" style="color: red"></i>'
-echo $brandIcon->color('red')->html('apple');
+// 'fab fa-windows'
+var_dump(Icon::V5->brand('windows'));
 ```
 
-Добавление фиксированной ширины для отображения в списках:
+Расширенный пример:
 
 ```php
-<?php declare(strict_types=1);
+<?php
 
-use Bugo\FontAwesomeHelper\Styles\SolidIcon;
+use Bugo\FontAwesomeHelper\Enums\Icon;
+use Bugo\FontAwesomeHelper\IconBuilder;
 
-$solidIcon = new SolidIcon();
-$solidIcon->useFixedWidth();
+$icon = Icon::V5->brand('windows');
+$builder = new IconBuilder($icon);
 
-// '<i class="fa-solid fa-user fa-fw"></i>'
-echo $solidIcon->html('user');
+// 'fab fa-windows fa-fw text-red-500'
+var_dump(
+    $builder
+        ->fixedWidth()
+        ->color('text-red-500')
+        ->text()
+);
+
+$icon = Icon::V6->solid('user');
+$builder = new IconBuilder($icon);
+
+// '<i class="fa-solid fa-user fa-2xl" style="color:red" title="Пользователь" aria-hidden="true"></i>'
+var_dump(
+    $builder
+        ->color('red')
+        ->size('2xl')
+        ->title('Пользователь')
+        ->ariaHidden()
+        ->html()
+);
 ```
 
-Добавление атрибута `aria-hidden="true"`:
+Дополнительные классы можно передать через метод `addClass`:
 
 ```php
-<?php declare(strict_types=1);
+<?php
 
-use Bugo\FontAwesomeHelper\Styles\SolidIcon;
+use Bugo\FontAwesomeHelper\Enums\Icon;
+use Bugo\FontAwesomeHelper\IconBuilder;
 
-$solidIcon = new SolidIcon();
-$solidIcon->useAriaHidden();
-
-// '<i class="fa-solid fa-user" aria-hidden="true"></i>'
-echo $solidIcon->html('user');
-```
-
-А дополнительные классы удобно передавать через метод `extra`:
-
-```php
-<?php declare(strict_types=1);
-
-use Bugo\FontAwesomeHelper\Styles\SolidIcon;
-
-$solidIcon = new SolidIcon();
+$icon = Icon::V6->solid('heart');
+$builder = new IconBuilder($icon);
 
 // '<i class="fa-solid fa-heart fa-beat"></i>'
-echo $solidIcon->extra('fa-beat')->html('heart');
+var_dump(
+    $builder
+        ->addClass('fa-beat')
+        ->html()
+);
 ```
 
 Кроме того, доступно получение случайной иконки:
 
 ```php
-<?php declare(strict_types=1);
+<?php
 
-use Bugo\FontAwesomeHelper\Styles\BrandIcon;
+use Bugo\FontAwesomeHelper\Enums\Icon;
 
-$brandIcon = new BrandIcon();
-
-echo $brandIcon->random();
+var_dump(Icon::V6->random());
 ```
 
-А так можно получить всю коллекцию сразу:
+А так можно получить всю коллекцию со всеми классами сразу:
 
 ```php
-<?php declare(strict_types=1);
+<?php
 
-use Bugo\FontAwesomeHelper\Collections\Collection;
+use Bugo\FontAwesomeHelper\Enums\Icon;
 
-$collection = new Collection();
-
-echo $collection->getAll();
-```
-
-Альтернативный способ работы с иконками через фабрики:
-
-```php
-<?php declare(strict_types=1);
-
-use Bugo\FontAwesomeHelper\Factories\IconFactoryCreator;
-
-$iconFactoryCreator = new IconFactoryCreator();
-$iconSolidFactory = $iconFactoryCreator::createFactory('solid');
-$solidIcon = $iconSolidFactory->createIcon();
-
-// '<i class="fa-solid fa-heart"></i>'
-echo $solidIcon->html('heart');
-
-$iconOldSolidFactory = $iconFactoryCreator::createFactory('old_solid');
-$oldSolidIcon = $iconOldSolidFactory->createIcon();
-
-// '<i class="fas fa-heart"></i>'
-echo $oldSolidIcon->html('heart');
+var_dump(Icon::V6->collection());
 ```
