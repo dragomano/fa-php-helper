@@ -1,23 +1,11 @@
 <?php declare(strict_types=1);
 
-/**
- * SolidIcon.php
- *
- * @package FontAwesomeHelper
- * @link https://dragomano.ru/fa-php-helper
- * @author Bugo <bugo@dragomano.ru>
- * @copyright 2024 Bugo
- * @license https://opensource.org/licenses/MIT The MIT License
- *
- * @version 0.3
- */
-
 namespace Bugo\FontAwesomeHelper\Styles;
 
-class SolidIcon extends AbstractIcon
-{
-    public string $prefix = 'fa-solid fa-';
+use Bugo\FontAwesomeHelper\Interfaces\IconInterface;
 
+class SolidIcon implements IconInterface
+{
     public function getAll(): array
     {
         return [
