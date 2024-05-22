@@ -1,25 +1,25 @@
 <?php declare(strict_types=1);
 
-use Bugo\FontAwesomeHelper\Enums\Icon;
+use Bugo\FontAwesome\Enums\Icon;
 
 test('brand method', function () {
-    expect(Icon::V5->brand('42-group'))->toBe('fab fa-42-group')
-        ->and(Icon::V6->brand('windows'))->toBe('fa-brands fa-windows');
+    expect(Icon::V5->brand('42-group')->text())->toBe('fab fa-42-group')
+        ->and(Icon::V6->brand('windows')->text())->toBe('fa-brands fa-windows');
 });
 
 test('regular method', function () {
-    expect(Icon::V5->regular('user'))->toBe('far fa-user')
-        ->and(Icon::V6->regular('clock'))->toBe('fa-regular fa-clock');
+    expect(Icon::V5->regular('user')->text())->toBe('far fa-user')
+        ->and(Icon::V6->regular('clock')->text())->toBe('fa-regular fa-clock');
 });
 
 test('solid method', function () {
-    expect(Icon::V5->solid('user'))->toBe('fas fa-user')
-        ->and(Icon::V6->solid('folder'))->toBe('fa-solid fa-folder');
+    expect(Icon::V5->solid('user')->text())->toBe('fas fa-user')
+        ->and(Icon::V6->solid('folder')->text())->toBe('fa-solid fa-folder');
 });
 
-test('unkhown icon', function () {
-    expect(Icon::V5->brand('foo'))->toBe('')
-        ->and(Icon::V6->brand('bar'))->toBe('');
+test('invalid icon', function () {
+    expect(fn() => Icon::V5->brand('foo'))
+        ->toThrow(InvalidArgumentException::class, 'Invalid icon: foo');
 });
 
 test('collection method', function () {
