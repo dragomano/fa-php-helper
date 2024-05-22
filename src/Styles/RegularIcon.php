@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Bugo\FontAwesomeHelper\Styles;
+namespace Bugo\FontAwesome\Styles;
 
-use Bugo\FontAwesomeHelper\Interfaces\IconInterface;
+use Bugo\FontAwesome\Contracts\IconInterface;
 
 class RegularIcon implements IconInterface
 {

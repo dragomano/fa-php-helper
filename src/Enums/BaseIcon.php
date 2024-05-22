@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Bugo\FontAwesomeHelper\Enums;
+namespace Bugo\FontAwesome\Enums;
 
 enum BaseIcon: string
 {

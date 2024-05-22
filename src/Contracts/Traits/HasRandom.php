@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Bugo\FontAwesomeHelper\Traits;
+namespace Bugo\FontAwesome\Contracts\Traits;
 
 use Exception;
 
@@ -16,6 +16,6 @@ trait HasRandom
         $icons = $this->collection();
         $index = random_int(0, count($icons) - 1);
 
-        return $icons[$index];
+        return (string) $icons[$index];
     }
 }

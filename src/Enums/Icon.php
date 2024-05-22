@@ -1,38 +1,45 @@
 <?php declare(strict_types=1);
 
-namespace Bugo\FontAwesomeHelper\Enums;
+namespace Bugo\FontAwesome\Enums;
 
-use Bugo\FontAwesomeHelper\Interfaces\CasesAwareInterface;
-use Bugo\FontAwesomeHelper\Interfaces\CollectionAwareInterface;
-use Bugo\FontAwesomeHelper\Interfaces\RandomAwareInterface;
-use Bugo\FontAwesomeHelper\Styles\BrandIcon;
-use Bugo\FontAwesomeHelper\Styles\RegularIcon;
-use Bugo\FontAwesomeHelper\Styles\SolidIcon;
-use Bugo\FontAwesomeHelper\Traits\HasCases;
-use Bugo\FontAwesomeHelper\Traits\HasCollection;
-use Bugo\FontAwesomeHelper\Traits\HasRandom;
+use Bugo\FontAwesome\Contracts\CasesInterface;
+use Bugo\FontAwesome\Contracts\CollectionInterface;
+use Bugo\FontAwesome\Contracts\RandomInterface;
+use Bugo\FontAwesome\Contracts\Traits\HasCases;
+use Bugo\FontAwesome\Contracts\Traits\HasCollection;
+use Bugo\FontAwesome\Contracts\Traits\HasRandom;
+use Bugo\FontAwesome\IconBuilder;
+use Bugo\FontAwesome\Styles\BrandIcon;
+use Bugo\FontAwesome\Styles\RegularIcon;
+use Bugo\FontAwesome\Styles\SolidIcon;
+use InvalidArgumentException;
 
-use function sprintf;
 use function array_search;
+use function sprintf;
 
-enum Icon: string implements CasesAwareInterface, CollectionAwareInterface, RandomAwareInterface
+enum Icon: string implements CasesInterface, CollectionInterface, RandomInterface
 {
     use HasCases, HasCollection, HasRandom;
 
     case V5 = '5';
     case V6 = '6';
 
-    public function factory(Type $type, string $identifier): string
+    public function factory(Type $type, string $identifier): IconBuilder
     {
         return $this->build($this->name, $type, $identifier);
     }
 
-    protected function build($version, $type, $icon): string
+    protected function build($version, $type, $icon): IconBuilder
     {
         $validIcon = $this->getIcon($type, $icon);
+
+        if ($validIcon === '') {
+            throw new InvalidArgumentException("Invalid icon: $icon");
+        }
+
         $baseIcon = constant(__NAMESPACE__ . "\BaseIcon::$version");
 
-        return $validIcon ? sprintf($baseIcon->value, $this->getSegment($type), $validIcon) : '';
+        return new IconBuilder(sprintf($baseIcon->value, $this->getSegment($type), $validIcon));
     }
 
     protected function getSegment(Type $type): string

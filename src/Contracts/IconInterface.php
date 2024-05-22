@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Bugo\FontAwesomeHelper\Interfaces;
+namespace Bugo\FontAwesome\Contracts;
 
 interface IconInterface
 {

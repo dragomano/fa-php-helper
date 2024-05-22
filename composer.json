@@ -16,7 +16,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "Bugo\\FontAwesomeHelper\\": "src/"
+      "Bugo\\FontAwesome\\": "src/"
     }
   },
   "autoload-dev": {

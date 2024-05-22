@@ -1,23 +1,16 @@
 <?php declare(strict_types=1);
 
-namespace Bugo\FontAwesomeHelper;
+namespace Bugo\FontAwesome;
 
-use InvalidArgumentException;
+use Bugo\FontAwesome\Enums\Size;
 use Nette\Utils\Html;
 
 use function array_merge;
 use function implode;
 use function str_starts_with;
-use function in_array;
 
-class IconBuilder
+class IconBuilder implements \Stringable
 {
-    private array $allowedSizes = [
-        '2xs', 'xs', 'sm', 'lg', 'xl', '2xl',
-        '1x', '2x', '3x', '4x', '5x',
-        '6x', '7x', '8x', '9x', '10x',
-    ];
-
     private array $params = [
         'fixed-width' => false,
         'aria-hidden' => false,
@@ -32,6 +25,11 @@ class IconBuilder
 
         $this->params = array_merge($this->params, $params);
         $this->resolveParams();
+    }
+
+    public function __toString(): string
+    {
+        return $this->text();
     }
 
     public function text(): string
@@ -62,13 +60,11 @@ class IconBuilder
         return $this;
     }
 
-    public function size(string $size): static
+    public function size(Size|string $size): static
     {
-        if (! in_array($size, $this->allowedSizes)) {
-            throw new InvalidArgumentException("Invalid size: $size");
-        }
+        $size = is_string($size) ? (Size::tryFrom($size) ?? Size::Default) : $size;
 
-        return $this->addClass('fa-' . $size);
+        return $this->addClass('fa-' . $size->value);
     }
 
     public function title(string $title): static
