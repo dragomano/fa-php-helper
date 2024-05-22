@@ -30,16 +30,16 @@ If only CSS classes are needed:
 ```php
 <?php
 
-use Bugo\FontAwesomeHelper\Enums\Icon;
+use Bugo\FontAwesome\Enums\Icon;
 
 // 'fa-solid fa-user'
-var_dump(Icon::V6->solid('user'));
+echo Icon::V6->solid('user');
 
 // 'fa-regular fa-user'
-var_dump(Icon::V6->regular('user'));
+echo Icon::V6->regular('user');
 
-// 'fab fa-windows'
-var_dump(Icon::V5->brand('windows'));
+// 'fa-brands fa-windows'
+echo Icon::V6->brand('windows');
 ```
 
 Advanced example:
@@ -47,29 +47,26 @@ Advanced example:
 ```php
 <?php
 
-use Bugo\FontAwesomeHelper\Enums\Icon;
-use Bugo\FontAwesomeHelper\IconBuilder;
+use Bugo\FontAwesome\Enums\Icon;
 
 $icon = Icon::V5->brand('windows');
-$builder = new IconBuilder($icon);
 
 // 'fab fa-windows fa-fw text-red-500'
 var_dump(
-    $builder
+    $icon
         ->fixedWidth()
         ->color('text-red-500')
         ->text()
 );
 
 $icon = Icon::V6->solid('user');
-$builder = new IconBuilder($icon);
 
-// '<i class="fa-solid fa-user fa-2xl" style="color:red" title="User" aria-hidden="true"></i>'
+// '<i class="fa-solid fa-user fa-2xl" style="color:red" title="Пользователь" aria-hidden="true"></i>'
 var_dump(
-    $builder
+    $icon
         ->color('red')
         ->size('2xl')
-        ->title('User')
+        ->title('Пользователь')
         ->ariaHidden()
         ->html()
 );
@@ -80,15 +77,13 @@ Additional classes can be passed through the `addClass` method:
 ```php
 <?php
 
-use Bugo\FontAwesomeHelper\Enums\Icon;
-use Bugo\FontAwesomeHelper\IconBuilder;
+use Bugo\FontAwesome\Enums\Icon;
 
 $icon = Icon::V6->solid('heart');
-$builder = new IconBuilder($icon);
 
 // '<i class="fa-solid fa-heart fa-beat"></i>'
 var_dump(
-    $builder
+    $icon
         ->addClass('fa-beat')
         ->html()
 );
@@ -99,7 +94,7 @@ You can also get a random icon:
 ```php
 <?php
 
-use Bugo\FontAwesomeHelper\Enums\Icon;
+use Bugo\FontAwesome\Enums\Icon;
 
 var_dump(Icon::V6->random());
 ```
@@ -109,7 +104,7 @@ And so you can get the whole collection with all CSS classes at once:
 ```php
 <?php
 
-use Bugo\FontAwesomeHelper\Enums\Icon;
+use Bugo\FontAwesome\Enums\Icon;
 
 var_dump(Icon::V6->collection());
 ```
