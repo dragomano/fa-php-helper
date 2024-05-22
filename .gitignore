@@ -5,3 +5,4 @@
 coverage.xml
 coverage/
 vendor/
+composer.lock
