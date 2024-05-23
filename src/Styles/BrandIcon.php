@@ -1,23 +1,11 @@
 <?php declare(strict_types=1);
 
-/**
- * BrandIcon.php
- *
- * @package FontAwesomeHelper
- * @link https://dragomano.ru/fa-php-helper
- * @author Bugo <bugo@dragomano.ru>
- * @copyright 2024 Bugo
- * @license https://opensource.org/licenses/MIT The MIT License
- *
- * @version 0.3
- */
+namespace Bugo\FontAwesome\Styles;
 
-namespace Bugo\FontAwesomeHelper\Styles;
+use Bugo\FontAwesome\Contracts\IconInterface;
 
-class BrandIcon extends AbstractIcon
+class BrandIcon implements IconInterface
 {
-    public string $prefix = 'fa-brands fa-';
-
     public function getAll(): array
     {
         return [
