@@ -7,6 +7,8 @@ use Nette\Utils\Html;
 
 use function array_merge;
 use function implode;
+use function is_string;
+use function method_exists;
 use function str_starts_with;
 
 class IconBuilder implements \Stringable
@@ -92,8 +94,7 @@ class IconBuilder implements \Stringable
             match ($key) {
                 'fixed-width' => $value ? $this->fixedWidth() : null,
                 'aria-hidden' => $value ? $this->ariaHidden() : null,
-                'color', 'size', 'title' => $this->$key($value),
-                default => null
+                default => method_exists($this, $key) ? $this->$key($value) : null,
             };
         }
     }
