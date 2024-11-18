@@ -154,6 +154,7 @@ class BrandIcon implements IconInterface
             'fedex',
             'fedora',
             'figma',
+            'files-pinwheel',
             'firefox',
             'firefox-browser',
             'first-order',
