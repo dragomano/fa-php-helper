@@ -61,12 +61,12 @@ var_dump(
 
 $icon = Icon::V6->solid('user');
 
-// '<i class="fa-solid fa-user fa-2xl" style="color:red" title="Пользователь" aria-hidden="true"></i>'
+// '<i class="fa-solid fa-user fa-2xl" style="color:red" title="User" aria-hidden="true"></i>'
 var_dump(
     $icon
         ->color('red')
         ->size('2xl')
-        ->title('Пользователь')
+        ->title('User')
         ->ariaHidden()
         ->html()
 );
