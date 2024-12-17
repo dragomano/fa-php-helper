@@ -15,6 +15,7 @@ use Bugo\FontAwesome\Styles\SolidIcon;
 use InvalidArgumentException;
 
 use function array_search;
+use function constant;
 use function sprintf;
 
 enum Icon: string implements CasesInterface, CollectionInterface, RandomInterface

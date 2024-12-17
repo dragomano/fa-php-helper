@@ -4,6 +4,7 @@ namespace Bugo\FontAwesome\Contracts\Traits;
 
 use Exception;
 
+use function count;
 use function random_int;
 
 trait HasRandom

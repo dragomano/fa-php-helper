@@ -8,8 +8,10 @@ use Nette\Utils\Html;
 
 use function array_merge;
 use function implode;
+use function in_array;
 use function is_string;
 use function method_exists;
+use function preg_match;
 use function str_starts_with;
 
 class IconBuilder implements \Stringable
@@ -82,7 +84,7 @@ class IconBuilder implements \Stringable
     {
         $size = is_string($size) ? (Size::tryFrom($size) ?? Size::Default) : $size;
 
-        return $this->addClass('fa-' . $size->value);
+        return $this->addClass("fa-$size->value");
     }
 
     public function title(string $title): static
