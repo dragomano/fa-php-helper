@@ -29,8 +29,8 @@
     "nette/utils": "^4.0"
   },
   "require-dev": {
-    "pestphp/pest": "^2.33.4",
-    "rector/rector": "^1.0"
+    "pestphp/pest": "^2.36",
+    "rector/rector": "^2.0"
   },
   "scripts": {
     "check": "vendor/bin/rector process --dry-run --clear-cache",
