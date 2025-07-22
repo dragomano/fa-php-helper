@@ -7,12 +7,11 @@
 
 ## Описание
 
-Пакет предназначен для генерации CSS-классов и HTML-кода иконок FontAwesome 6. Кроме того, доступны следующие функции:
+Пакет предназначен для генерации CSS-классов и HTML-кода иконок FontAwesome 7. Кроме того, доступны следующие функции:
 
 - добавление цвета иконок
 - изменение размера иконок
 - поддержка как современных (`fa-solid fa-`), так и устаревших классов (`fas fa-`)
-- использование фиксированной ширины иконок (`fa-fw`) для отображения в списках
 - опциональное добавление атрибута `aria-hidden="true"` для скрытия иконок от программ чтения с экрана и т. п.
 - получение CSS-класса случайной иконки
 - коллекция CSS-классов всех иконок
@@ -33,13 +32,13 @@ composer require bugo/fa-php-helper
 use Bugo\FontAwesome\Enums\Icon;
 
 // 'fa-solid fa-user'
-echo Icon::V6->solid('user');
+echo Icon::V7->solid('user');
 
 // 'fa-regular fa-user'
-echo Icon::V6->regular('user');
+echo Icon::V7->regular('user');
 
 // 'fa-brands fa-windows'
-echo Icon::V6->brand('windows');
+echo Icon::V7->brand('windows');
 ```
 
 Расширенный пример:
@@ -49,17 +48,7 @@ echo Icon::V6->brand('windows');
 
 use Bugo\FontAwesome\Enums\Icon;
 
-$icon = Icon::V5->brand('windows');
-
-// 'fab fa-windows fa-fw text-red-500'
-var_dump(
-    $icon
-        ->fixedWidth()
-        ->color('text-red-500')
-        ->text()
-);
-
-$icon = Icon::V6->solid('user');
+$icon = Icon::V7->solid('user');
 
 // '<i class="fa-solid fa-user fa-2xl" style="color:red" title="Пользователь" aria-hidden="true"></i>'
 var_dump(
@@ -79,7 +68,7 @@ var_dump(
 
 use Bugo\FontAwesome\Enums\Icon;
 
-$icon = Icon::V6->solid('heart');
+$icon = Icon::V7->solid('heart');
 
 // '<i class="fa-solid fa-heart fa-beat"></i>'
 var_dump(
@@ -96,7 +85,7 @@ var_dump(
 
 use Bugo\FontAwesome\Enums\Icon;
 
-var_dump(Icon::V6->random());
+var_dump(Icon::V7->random());
 ```
 
 А так можно получить всю коллекцию со всеми классами сразу:
@@ -106,5 +95,5 @@ var_dump(Icon::V6->random());
 
 use Bugo\FontAwesome\Enums\Icon;
 
-var_dump(Icon::V6->collection());
+var_dump(Icon::V7->collection());
 ```
