@@ -34,6 +34,20 @@ test('addClass method', function () {
         ->toBe('fas fa-calendar fa-spin');
 });
 
+describe('fixedWidth method', function () {
+    test('default behavior (v5/v6)', function () {
+        $icon = Icon::V6->solid('cat')->fixedWidth();
+
+        expect($icon->text())->toContain('fa-fw');
+    });
+
+    test('drop fa-fw class in V7', function () {
+        $icon = Icon::V7->solid('cat')->fixedWidth();
+
+        expect($icon->text())->toBe(Icon::V7->solid('cat')->text());
+    });
+});
+
 describe('color method', function () {
     it('accepts valid hex color', function () {
         expect($this->iconV5->color('#ff0000')->html())
