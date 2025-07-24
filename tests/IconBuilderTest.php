@@ -34,20 +34,6 @@ test('addClass method', function () {
         ->toBe('fas fa-calendar fa-spin');
 });
 
-describe('fixedWidth method', function () {
-    test('default behavior (v5/v6)', function () {
-        $icon = Icon::V6->solid('cat')->fixedWidth();
-
-        expect($icon->text())->toContain('fa-fw');
-    });
-
-    test('drop fa-fw class in V7', function () {
-        $icon = Icon::V7->solid('cat')->fixedWidth();
-
-        expect($icon->text())->toBe(Icon::V7->solid('cat')->text());
-    });
-});
-
 describe('color method', function () {
     it('accepts valid hex color', function () {
         expect($this->iconV5->color('#ff0000')->html())
@@ -115,6 +101,25 @@ describe('title method', function () {
     it('checks icon with specified title', function () {
         expect($this->icon->html())
             ->toBe('<i class="fas fa-cat fa-7x" style="color:#fff" title="Tom"></i>');
+    });
+});
+
+test('ariaHidden method', function () {
+    expect($this->iconV5->ariaHidden()->html())
+        ->toBe('<i class="fas fa-calendar" aria-hidden="true"></i>');
+});
+
+describe('fixedWidth method', function () {
+    test('default behavior (v5/v6)', function () {
+        $icon = Icon::V6->solid('cat')->fixedWidth();
+
+        expect($icon->text())->toContain('fa-fw');
+    });
+
+    test('drop fa-fw class in V7', function () {
+        $icon = Icon::V7->solid('cat')->fixedWidth();
+
+        expect($icon->text())->toBe(Icon::V7->solid('cat')->text());
     });
 });
 

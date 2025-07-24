@@ -2,24 +2,23 @@
 
 namespace Bugo\FontAwesome;
 
+use Bugo\FontAwesome\Contracts\IconParameterStrategy;
+use Bugo\FontAwesome\Enums\Param;
 use Bugo\FontAwesome\Enums\Size;
+use Bugo\FontAwesome\Strategies\AriaHiddenParameter;
+use Bugo\FontAwesome\Strategies\ColorParameter;
+use Bugo\FontAwesome\Strategies\FixedWidthParameter;
+use Bugo\FontAwesome\Strategies\SizeParameter;
+use Bugo\FontAwesome\Strategies\TitleParameter;
 use InvalidArgumentException;
 use Nette\Utils\Html;
 
 use function array_merge;
 use function implode;
-use function in_array;
-use function is_string;
-use function method_exists;
-use function preg_match;
-use function str_starts_with;
 
 class IconBuilder implements \Stringable
 {
-    private array $params = [
-        'fixed-width' => false,
-        'aria-hidden' => false,
-    ];
+    private array $params = [];
 
     private readonly Html $icon;
 
@@ -30,15 +29,20 @@ class IconBuilder implements \Stringable
         }
 
         $this->icon = Html::el('i');
-        $this->icon->class[] = $class;
+        $this->addClass($class);
 
-        $this->params = array_merge($this->params, $params);
+        $this->params = array_merge(Param::default(), $params);
         $this->resolveParams();
     }
 
     public function __toString(): string
     {
         return $this->text();
+    }
+
+    public function getIcon(): Html
+    {
+        return $this->icon;
     }
 
     public function text(): string
@@ -60,66 +64,52 @@ class IconBuilder implements \Stringable
 
     public function color(string $color): static
     {
-        if (empty($color)) {
-            throw new InvalidArgumentException('Color cannot be empty');
-        }
+        $this->applyParameter(new ColorParameter(), $color);
 
-        if (str_starts_with($color, 'text-')) {
-            return $this->addClass($color);
-        }
-
-        if (
-            preg_match('/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/', $color)
-            || preg_match('/^[a-zA-Z]+$/', $color)
-        ) {
-            $this->icon->style['color'] = $color;
-
-            return $this;
-        }
-
-        throw new InvalidArgumentException('Invalid color format');
+        return $this;
     }
 
     public function size(Size|string $size): static
     {
-        $size = is_string($size) ? (Size::tryFrom($size) ?? Size::Default) : $size;
+        $this->applyParameter(new SizeParameter(), $size);
 
-        return $this->addClass("fa-$size->value");
+        return $this;
     }
 
     public function title(string $title): static
     {
-        $this->icon->title = $title;
+        $this->applyParameter(new TitleParameter(), $title);
+
+        return $this;
+    }
+
+    public function ariaHidden(): static
+    {
+        $this->applyParameter(new AriaHiddenParameter(), true);
 
         return $this;
     }
 
     public function fixedWidth(): static
     {
-        return $this->addClass('fa-fw');
-    }
-
-    public function ariaHidden(): static
-    {
-        $this->icon->setAttribute('aria-hidden', 'true');
+        $this->applyParameter(new FixedWidthParameter(), true);
 
         return $this;
     }
 
+    private function applyParameter(IconParameterStrategy $strategy, mixed $value): void
+    {
+        $strategy->apply($this, $value);
+    }
+
     private function resolveParams(): void
     {
-        $allowedParams = ['color', 'size', 'title', 'fixed-width', 'aria-hidden'];
+        $strategies = Param::getStrategies();
 
         foreach ($this->params as $key => $value) {
-            if (! in_array($key, $allowedParams)) {
-                continue;
+            if (isset($strategies[$key])) {
+                $this->applyParameter($strategies[$key], $value);
             }
-
-            match ($key) {
-                'fixed-width' => $value ? $this->fixedWidth() : null,
-                'aria-hidden' => $value ? $this->ariaHidden() : null,
-                default => method_exists($this, $key) ? $this->$key($value) : null,
-            };
         }
     }
 }
