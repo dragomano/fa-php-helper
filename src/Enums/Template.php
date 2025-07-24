@@ -2,7 +2,7 @@
 
 namespace Bugo\FontAwesome\Enums;
 
-enum BaseIcon: string
+enum Template: string
 {
     case V5 = 'fa%s fa-%s';
     case V6 = 'fa-%s fa-%s';

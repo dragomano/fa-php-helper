@@ -3,7 +3,7 @@
 use Bugo\FontAwesome\Enums\Icon;
 
 test('brand method', function () {
-    expect(Icon::V5->brand('42-group')->text())->toBe('fab fa-42-group')
+    expect(Icon::V5->brand('paypal')->text())->toBe('fab fa-paypal')
         ->and(Icon::V6->brand('windows')->text())->toBe('fa-brands fa-windows');
 });
 

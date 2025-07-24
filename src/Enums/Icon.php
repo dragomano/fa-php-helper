@@ -27,23 +27,28 @@ enum Icon: string implements CasesInterface, CollectionInterface, RandomInterfac
     case V6 = '6';
     case V7 = '7';
 
-    public function factory(Type $type, string $identifier): IconBuilder
+    public function factory(Style $style, string $identifier): IconBuilder
     {
-        return $this->build($this->name, $type, $identifier);
+        return $this->build($this->name, $style, $identifier);
     }
 
-    protected function build(string $version, Type $type, string $icon): IconBuilder
+    protected function build(string $version, Style $style, string $icon): IconBuilder
     {
-        $validIcon = $this->validateIcon($type, $icon);
         $version = $this->normalizeVersion($version);
-        $iconClassString = $this->buildIconClassString($version, $type, $validIcon);
+        $validIcon = $this->validateIcon($style, $icon);
+        $iconClass = $this->buildIconClass($version, $style, $validIcon);
 
-        return $this->createIconBuilder($iconClassString);
+        return $this->createIconBuilder($iconClass);
     }
 
-    private function validateIcon(Type $type, string $icon): string
+    private function normalizeVersion(string $version): string
     {
-        $validIcon = $this->getIcon($type, $icon);
+        return $version === self::V7->name ? self::V6->name : $version;
+    }
+
+    private function validateIcon(Style $style, string $icon): string
+    {
+        $validIcon = $this->getIcon($style, $icon);
 
         if ($validIcon === '') {
             throw new InvalidArgumentException("Invalid icon: $icon");
@@ -52,47 +57,42 @@ enum Icon: string implements CasesInterface, CollectionInterface, RandomInterfac
         return $validIcon;
     }
 
-    private function normalizeVersion(string $version): string
+    private function buildIconClass(string $version, Style $style, string $validIcon): string
     {
-        return $version === self::V7->name ? self::V6->name : $version;
+        $template = constant(__NAMESPACE__ . "\Template::$version");
+
+        return sprintf($template->value, $this->getSegment($style), $validIcon);
     }
 
-    private function buildIconClassString(string $version, Type $type, string $validIcon): string
-    {
-        $baseIcon = constant(__NAMESPACE__ . "\BaseIcon::$version");
-
-        return sprintf($baseIcon->value, $this->getSegment($type), $validIcon);
-    }
-
-    private function createIconBuilder(string $iconClassString): IconBuilder
+    private function createIconBuilder(string $iconClass): IconBuilder
     {
         if ($this->value === self::V7->value) {
-            return new class($iconClassString) extends IconBuilder {
+            return new class($iconClass) extends IconBuilder {
                 use HasNewBehavior;
             };
         }
 
-        return new IconBuilder($iconClassString);
+        return new IconBuilder($iconClass);
     }
 
-    private function getSegment(Type $type): string
+    private function getSegment(Style $style): string
     {
-        return match ([$this, $type]) {
-            [self::V5, Type::Brand] => TypeId::BrandV5->value,
-            [self::V5, Type::Regular] => TypeId::RegularV5->value,
-            [self::V5, Type::Solid] => TypeId::SolidV5->value,
-            [self::V6, Type::Brand], [self::V7, Type::Brand] => TypeId::BrandV6->value,
-            [self::V6, Type::Regular], [self::V7, Type::Regular] => TypeId::RegularV6->value,
-            [self::V6, Type::Solid], [self::V7, Type::Solid] => TypeId::SolidV6->value,
+        return match ([$this, $style]) {
+            [self::V5, Style::Brand] => Segment::BrandV5->value,
+            [self::V5, Style::Regular] => Segment::RegularV5->value,
+            [self::V5, Style::Solid] => Segment::SolidV5->value,
+            [self::V6, Style::Brand], [self::V7, Style::Brand] => Segment::BrandV6->value,
+            [self::V6, Style::Regular], [self::V7, Style::Regular] => Segment::RegularV6->value,
+            [self::V6, Style::Solid], [self::V7, Style::Solid] => Segment::SolidV6->value,
         };
     }
 
-    private function getIcon(Type $type, string $icon): string
+    private function getIcon(Style $style, string $icon): string
     {
-        $set = match ($type) {
-            Type::Solid   => (new SolidIcon())->getAll(),
-            Type::Brand   => (new BrandIcon())->getAll(),
-            Type::Regular => (new RegularIcon())->getAll(),
+        $set = match ($style) {
+            Style::Brand   => (new BrandIcon())->getAll(),
+            Style::Regular => (new RegularIcon())->getAll(),
+            Style::Solid   => (new SolidIcon())->getAll(),
         };
 
         if (($key = array_search($icon, $set, true)) !== false) {

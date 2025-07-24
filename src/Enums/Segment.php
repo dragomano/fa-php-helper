@@ -2,7 +2,7 @@
 
 namespace Bugo\FontAwesome\Enums;
 
-enum TypeId: string
+enum Segment: string
 {
     case BrandV5   = 'b';
     case BrandV6   = 'brands';

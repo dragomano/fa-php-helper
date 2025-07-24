@@ -180,12 +180,12 @@ describe('resolveParams method', function () {
     });
 
     it('applies multiple params together', function () {
-        $icon = new IconBuilder('fa-user', [
-            'color' => 'red',
-            'size' => Size::Large,
+        $icon = new IconBuilder('fas fa-user', [
+            'color'       => 'red',
+            'size'        => Size::Large,
             'fixed-width' => true,
             'aria-hidden' => true,
-            'title' => 'User Icon'
+            'title'       => 'User Icon',
         ]);
 
         expect($icon->html())

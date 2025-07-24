@@ -2,7 +2,7 @@
 
 namespace Bugo\FontAwesome\Enums;
 
-enum Type
+enum Style
 {
     case Brand;
     case Regular;

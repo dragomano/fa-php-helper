@@ -2,7 +2,7 @@
 
 namespace Bugo\FontAwesome\Contracts\Traits;
 
-use Bugo\FontAwesome\Enums\Type;
+use Bugo\FontAwesome\Enums\Style;
 use Bugo\FontAwesome\Styles\BrandIcon;
 use Bugo\FontAwesome\Styles\RegularIcon;
 use Bugo\FontAwesome\Styles\SolidIcon;
@@ -14,12 +14,32 @@ trait HasCollection
 {
     public function collection(): array
     {
-        $mapIcons = fn($icons, $type) => array_map(fn($icon) => (string) $this->factory($type, $icon), $icons);
-
         return array_merge(
-            $mapIcons((new BrandIcon())->getAll(), Type::Brand),
-            $mapIcons((new RegularIcon())->getAll(), Type::Regular),
-            $mapIcons((new SolidIcon())->getAll(), Type::Solid)
+            $this->brandOnly(),
+            $this->regularOnly(),
+            $this->solidOnly(),
         );
+    }
+
+    public function brandOnly(): array
+    {
+        return $this->getMappedIcons(BrandIcon::class, Style::Brand);
+    }
+
+    public function regularOnly(): array
+    {
+        return $this->getMappedIcons(RegularIcon::class, Style::Regular);
+    }
+
+    public function solidOnly(): array
+    {
+        return $this->getMappedIcons(SolidIcon::class, Style::Solid);
+    }
+
+    private function getMappedIcons(string $iconClass, Style $style): array
+    {
+        $icons = (new $iconClass())->getAll();
+
+        return array_map(fn($icon) => (string) $this->factory($style, $icon), $icons);
     }
 }
