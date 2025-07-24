@@ -7,7 +7,7 @@
 
 ## Description
 
-This package is designed to generate CSS classes and HTML code for FontAwesome 7 icons. In addition, the following features are available:
+This package is designed to generate HTML code for FontAwesome 7 icons. The following features are available:
 
 - add icon colors
 - resize icons
