@@ -19,7 +19,10 @@ test('solid method', function () {
 
 test('invalid icon', function () {
     expect(fn() => Icon::V5->brand('foo'))
-        ->toThrow(InvalidArgumentException::class, 'Invalid icon: foo');
+        ->toThrow(
+            InvalidArgumentException::class,
+            "Icon 'foo' not found in Brands collection"
+        );
 });
 
 test('collection method', function () {

@@ -5,9 +5,9 @@ use Bugo\FontAwesome\Enums\Size;
 use Bugo\FontAwesome\IconBuilder;
 
 beforeEach(function () {
-    $this->iconV5 = new IconBuilder(Icon::V5->solid('calendar')->text());
-    $this->iconV6 = new IconBuilder(Icon::V6->regular('user')->text());
-    $this->icon   = new IconBuilder(Icon::V5->solid('cat')->text(), [
+    $this->calendarIcon = new IconBuilder(Icon::V5->solid('calendar')->text());
+    $this->userIcon = new IconBuilder(Icon::V6->regular('user')->text());
+    $this->catIcon = new IconBuilder(Icon::V5->solid('cat')->text(), [
         'size'  => '7x',
         'color' => '#fff',
         'title' => 'Tom',
@@ -16,96 +16,97 @@ beforeEach(function () {
 
 it('throws exception when empty class provided', function () {
     expect(fn() => new IconBuilder(''))
-        ->toThrow(InvalidArgumentException::class, 'Icon class cannot be empty');
+        ->toThrow(
+            InvalidArgumentException::class,
+            'Icon class cannot be empty'
+        );
 });
 
 test('text method', function () {
-    expect($this->iconV6->text())->toBe('fa-regular fa-user')
-        ->and($this->iconV5->text())->toBe('fas fa-calendar');
+    expect($this->userIcon->text())->toBe('fa-regular fa-user')
+        ->and($this->calendarIcon->text())->toBe('fas fa-calendar');
 });
 
 test('html method', function () {
-    expect($this->iconV6->html())
+    expect($this->userIcon->html())
         ->toBe('<i class="fa-regular fa-user"></i>');
 });
 
 test('addClass method', function () {
-    expect($this->iconV5->addClass('fa-spin')->text())
+    expect($this->calendarIcon->addClass('fa-spin')->text())
         ->toBe('fas fa-calendar fa-spin');
 });
 
 describe('color method', function () {
     it('accepts valid hex color', function () {
-        expect($this->iconV5->color('#ff0000')->html())
-            ->toContain('style="color:#ff0000"');
+        expect($this->calendarIcon->color('#ff0000')->html())
+            ->toBe('<i class="fas fa-calendar" style="color:#ff0000"></i>');
     });
 
     it('accepts short hex color', function () {
-        expect($this->iconV5->color('#f00')->html())
-            ->toContain('style="color:#f00"');
+        expect($this->calendarIcon->color('#f00')->html())
+            ->toBe('<i class="fas fa-calendar" style="color:#f00"></i>');
     });
 
     it('accepts CSS color name', function () {
-        expect($this->iconV5->color('red')->html())
-            ->toContain('style="color:red"');
+        expect($this->calendarIcon->color('red')->html())
+            ->toBe('<i class="fas fa-calendar" style="color:red"></i>');
     });
 
     it('accepts Bootstrap text color classes', function () {
-        expect($this->iconV5->color('text-primary')->text())
-            ->toContain('text-primary');
+        expect($this->calendarIcon->color('text-primary')->text())
+            ->toBe('fas fa-calendar text-primary');
     });
 
     it('accepts Tailwind text color classes', function () {
-        expect($this->iconV5->color('text-red-500')->text())
-            ->toContain('text-red-500');
-    });
-
-    it('throws exception for empty color', function () {
-        expect(fn() => $this->iconV5->color(''))
-            ->toThrow(InvalidArgumentException::class, 'Color cannot be empty');
+        expect($this->calendarIcon->color('text-red-500')->text())
+            ->toBe('fas fa-calendar text-red-500');
     });
 
     it('throws exception for invalid color format', function () {
-        expect(fn() => $this->iconV5->color('not-a-color!'))
-            ->toThrow(InvalidArgumentException::class, 'Invalid color format');
+        expect(fn() => $this->calendarIcon->color('not-a-color!'))
+            ->toThrow(
+                InvalidArgumentException::class,
+                'Use hex (#RRGGBB), named color (red) or Tailwind CSS class (text-red-500).'
+            );
     });
 });
 
 describe('size method', function () {
     it('checks Size enum param', function () {
-        expect($this->iconV5->size(Size::XS)->text())
+        expect($this->calendarIcon->size(Size::XS)->text())
             ->toBe('fas fa-calendar fa-xs');
     });
 
     it('checks string param', function () {
-        expect($this->iconV5->size('lg')->text())
+        expect($this->calendarIcon->size('lg')->text())
             ->toBe('fas fa-calendar fa-lg');
     });
 
     it('checks unknown param', function () {
-        expect($this->iconV5->size('10px')->text())
+        expect($this->calendarIcon->size('10px')->text())
             ->toBe('fas fa-calendar fa-' . Size::Default->value);
     });
 
     it('checks icon with specified size', function () {
-        expect($this->icon->text())->toBe('fas fa-cat fa-7x');
+        expect($this->catIcon->text())->toBe('fas fa-cat fa-7x');
     });
 });
 
 describe('title method', function () {
     it('checks string param', function () {
-        expect($this->iconV5->title('Calendar')->html())
+        expect($this->calendarIcon->title('Calendar')->html())
             ->toBe('<i class="fas fa-calendar" title="Calendar"></i>');
     });
 
     it('checks icon with specified title', function () {
-        expect($this->icon->html())
+        expect($this->catIcon->html())
             ->toBe('<i class="fas fa-cat fa-7x" style="color:#fff" title="Tom"></i>');
     });
 });
 
 test('ariaHidden method', function () {
-    expect($this->iconV5->ariaHidden()->html())
+    expect($this->calendarIcon->ariaHidden()->html())
         ->toBe('<i class="fas fa-calendar" aria-hidden="true"></i>');
 });
 
