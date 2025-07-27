@@ -13,25 +13,29 @@ class ColorParameter implements IconParameterStrategy
 {
     public function apply(IconBuilder $iconBuilder, mixed $value): void
     {
-        if (empty($value)) {
-            throw new InvalidArgumentException('Color cannot be empty');
-        }
-
         $value = (string) $value;
 
-        if (str_starts_with($value, 'text-')) {
-            $iconBuilder->addClass($value);
+        $iconBuilder->getIcon()->style['color'] = match (true) {
+            $this->isHexColor($value) || $this->isNamedColor($value) => $value,
+            $this->isTailwindColorClass($value) => $iconBuilder->addClass($value),
+            default => throw new InvalidArgumentException(
+                "Invalid color format. Use hex (#RRGGBB), named color (red) or Tailwind CSS class (text-red-500)."
+            ),
+        };
+    }
 
-            return;
-        }
+    private function isHexColor(string $color): bool
+    {
+        return (bool) preg_match('/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/', $color);
+    }
 
-        if (
-            preg_match('/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/', $value)
-            || preg_match('/^[a-zA-Z]+$/', $value)
-        ) {
-            $iconBuilder->getIcon()->style['color'] = $value;
-        } else {
-            throw new InvalidArgumentException('Invalid color format');
-        }
+    private function isNamedColor(string $color): bool
+    {
+        return (bool) preg_match('/^[a-zA-Z]+$/', $color);
+    }
+
+    private function isTailwindColorClass(string $color): bool
+    {
+        return str_starts_with($color, 'text-');
     }
 }

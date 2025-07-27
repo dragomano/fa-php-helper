@@ -51,7 +51,7 @@ enum Icon: string implements CasesInterface, CollectionInterface, RandomInterfac
         $validIcon = $this->getIcon($style, $icon);
 
         if ($validIcon === '') {
-            throw new InvalidArgumentException("Invalid icon: $icon");
+            throw new InvalidArgumentException("Icon '$icon' not found in $style->name collection");
         }
 
         return $validIcon;
@@ -78,10 +78,10 @@ enum Icon: string implements CasesInterface, CollectionInterface, RandomInterfac
     private function getSegment(Style $style): string
     {
         return match ([$this, $style]) {
-            [self::V5, Style::Brand] => Segment::BrandV5->value,
+            [self::V5, Style::Brands] => Segment::BrandV5->value,
             [self::V5, Style::Regular] => Segment::RegularV5->value,
             [self::V5, Style::Solid] => Segment::SolidV5->value,
-            [self::V6, Style::Brand], [self::V7, Style::Brand] => Segment::BrandV6->value,
+            [self::V6, Style::Brands], [self::V7, Style::Brands] => Segment::BrandV6->value,
             [self::V6, Style::Regular], [self::V7, Style::Regular] => Segment::RegularV6->value,
             [self::V6, Style::Solid], [self::V7, Style::Solid] => Segment::SolidV6->value,
         };
@@ -90,7 +90,7 @@ enum Icon: string implements CasesInterface, CollectionInterface, RandomInterfac
     private function getIcon(Style $style, string $icon): string
     {
         $set = match ($style) {
-            Style::Brand   => (new BrandIcon())->getAll(),
+            Style::Brands   => (new BrandIcon())->getAll(),
             Style::Regular => (new RegularIcon())->getAll(),
             Style::Solid   => (new SolidIcon())->getAll(),
         };

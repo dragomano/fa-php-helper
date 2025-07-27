@@ -4,7 +4,7 @@ namespace Bugo\FontAwesome\Enums;
 
 enum Style
 {
-    case Brand;
+    case Brands;
     case Regular;
     case Solid;
 }

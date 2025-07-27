@@ -23,7 +23,7 @@ trait HasCollection
 
     public function brandOnly(): array
     {
-        return $this->getMappedIcons(BrandIcon::class, Style::Brand);
+        return $this->getMappedIcons(BrandIcon::class, Style::Brands);
     }
 
     public function regularOnly(): array

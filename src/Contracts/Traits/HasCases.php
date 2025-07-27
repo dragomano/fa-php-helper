@@ -9,7 +9,7 @@ trait HasCases
 {
     public function brand(string $icon): IconBuilder
     {
-        return $this->factory(Style::Brand, $icon);
+        return $this->factory(Style::Brands, $icon);
     }
 
     public function regular(string $icon): IconBuilder
