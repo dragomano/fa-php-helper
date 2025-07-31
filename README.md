@@ -22,7 +22,7 @@ This package is designed to generate HTML code for FontAwesome 7 icons. The foll
 composer require bugo/fa-php-helper
 ```
 
-## Using
+## Usage
 
 If only CSS classes are needed:
 
