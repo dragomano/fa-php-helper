@@ -4,5 +4,5 @@ namespace Bugo\FontAwesome\Contracts;
 
 interface IconInterface
 {
-    public function getAll(): array;
+    public function getAll(int $version = 7): array;
 }

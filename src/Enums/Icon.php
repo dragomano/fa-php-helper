@@ -90,9 +90,9 @@ enum Icon: string implements CasesInterface, CollectionInterface, RandomInterfac
     private function getIcon(Style $style, string $icon): string
     {
         $set = match ($style) {
-            Style::Brands   => (new BrandIcon())->getAll(),
-            Style::Regular => (new RegularIcon())->getAll(),
-            Style::Solid   => (new SolidIcon())->getAll(),
+            Style::Brands  => (new BrandIcon())->getAll((int) $this->value),
+            Style::Regular => (new RegularIcon())->getAll((int) $this->value),
+            Style::Solid   => (new SolidIcon())->getAll((int) $this->value),
         };
 
         if (($key = array_search($icon, $set, true)) !== false) {

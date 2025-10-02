@@ -38,7 +38,7 @@ trait HasCollection
 
     private function getMappedIcons(string $iconClass, Style $style): array
     {
-        $icons = (new $iconClass())->getAll();
+        $icons = (new $iconClass())->getAll((int) $this->value);
 
         return array_map(fn($icon) => (string) $this->factory($style, $icon), $icons);
     }
