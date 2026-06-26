@@ -1,6 +1,6 @@
 # FontAwesome PHP Helper
 
-![PHP](https://img.shields.io/badge/PHP-^8.1-blue.svg?style=flat)
+![PHP](https://img.shields.io/badge/PHP-^8.2-blue.svg?style=flat)
 ![Coverage](https://badgen.net/coveralls/c/github/dragomano/fa-php-helper/main)
 
 [English](README.md)
