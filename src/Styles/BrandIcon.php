@@ -539,6 +539,7 @@ class BrandIcon extends AbstractStyle
     ];
 
     protected const ADDED_IN_V7 = [
+        'a11y-project',
         'arch-linux',
         'board-game-geek',
         'build-awesome',
@@ -546,8 +547,10 @@ class BrandIcon extends AbstractStyle
         'circle-zulip',
         'claude',
         'codeberg',
+        'copilot',
         'devpost',
         'disqus',
+        'dolibarr',
         'duolingo',
         'eleventy',
         'fediverse',
@@ -569,6 +572,7 @@ class BrandIcon extends AbstractStyle
         'mattermost',
         'nextcloud',
         'notion',
+        'obs-studio',
         'obsidian',
         'openai',
         'openstreetmap',
@@ -583,6 +587,7 @@ class BrandIcon extends AbstractStyle
         'square-deskpro',
         'square-figma',
         'square-linkedin',
+        'storybook',
         'substack',
         'supportnow',
         'svelte',
@@ -602,6 +607,7 @@ class BrandIcon extends AbstractStyle
         'venmo',
         'venmo-v',
         'vim',
+        'visual-studio',
         'vsco',
         'w3c',
         'xmpp',
